@@ -32,8 +32,6 @@ export function lit(
 ): Script {
   const cachedNamesForType = new Map<Value["type"], Map<string, string>>();
 
-  // `${value.type} $autogen__${value.type}`
-
   const vars: Script["vars"] = {};
   // TODO handle when vars block already exists
 
@@ -87,25 +85,6 @@ function stringifyVar(value: Value): string {
   switch (value.type) {
     case "string":
     case "account":
-    case "asset":
-      return value.value;
-
-    case "number":
-      return value.value.toString();
-
-    case "portion":
-      return `${value.numerator}/${value.denominator}`;
-  }
-}
-
-function stringifyFragment(value: Value): string {
-  switch (value.type) {
-    case "string":
-      return `"${value.value}"`;
-
-    case "account":
-      return `@${value.value}`;
-
     case "asset":
       return value.value;
 
