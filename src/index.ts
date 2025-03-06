@@ -26,6 +26,10 @@ export function asset(value: string): Value {
   return { type: "asset", value };
 }
 
+function findVarPosition(t: TemplateStringsArray) {
+  const joined = t.join("");
+}
+
 export function lit(
   fragments: TemplateStringsArray,
   ...values: Value[]

@@ -45,5 +45,35 @@ send [USD/2 $autogen__number1] (
   });
 });
 
-test.todo("works when there is already a vars block");
+describe.todo("handle pre-existing vars blocks", () => {
+  test("works when there is already a vars block", () => {
+    const user1 = numscript.account("my:user");
+    const script = numscript.lit`vars {
+  monetary $balance = balance(${user1}, USD/2)
+}
+
+send $balance (
+  source = @world
+  destination = ${user1}
+)
+`;
+
+    expect(script).toEqual<numscript.Script>({
+      vars: {
+        autogen__account1: "my:user",
+      },
+      plain: `vars {
+  account $autogen__account1
+  monetary $balance = balance($autogen__account1, USD/2)
+}
+
+send $balance (
+  source = @world
+  destination = $autogen__account1
+)
+`,
+    });
+  });
+});
+
 test.todo("doesn't declare already existing variables");
